@@ -31,8 +31,10 @@ yarn-error.*
 
 # local env files
 .env*.local
+constants.js
 
 # typescript
 *.tsbuildinfo
 
 app-example
+.qodo

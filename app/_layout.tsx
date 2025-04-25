@@ -1,39 +1,59 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Stack, useRouter, useSegments } from "expo-router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase"; // your configured supabase client
+import { Session, User } from "@supabase/supabase-js";
+import "@/global.css";
+import { StatusBar } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const [init, setInit] = useState(true);
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
+  const segments = useSegments();
 
+  // Watch for auth changes
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    const getInitialSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setInit(false);
+    };
 
-  if (!loaded) {
-    return null;
-  }
+    getInitialSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  //* Navigation guard
+  useEffect(() => {
+    if (init) return;
+
+    const inAuthGroup = segments[0] === "(auth)";
+    const isLoggedIn = !!session?.user;
+
+    if (isLoggedIn && inAuthGroup) {
+      router.replace("/(main)/Home");
+    } else if (!isLoggedIn && !inAuthGroup) {
+      router.replace("/");
+    }
+  }, [session, init]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+    <>
+      <Stack screenOptions={{ headerShown: false , animation : "none"}}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(main)" />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+      <StatusBar backgroundColor={"#323232"} barStyle={"light-content"} />
+    </>
   );
 }

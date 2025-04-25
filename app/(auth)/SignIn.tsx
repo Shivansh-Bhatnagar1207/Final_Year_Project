@@ -1,0 +1,94 @@
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
+import { supabase } from "@/utils/supabase";
+import { SafeAreaView } from "react-native-safe-area-context";
+import FormField from "@/component/FormField";
+import Btn from "@/component/Btn";
+import { Link } from "expo-router";
+import { Switch } from "@rneui/themed";
+
+export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) alert(error.message);
+    else alert("Welcome");
+  };
+  return (
+    <SafeAreaView className="bg-bgnd h-full">
+      <ScrollView>
+        <View className="w-full h-full justify-center min-h-[85vh] px-4 my-6 ">
+          <Image
+            source={require("@/assets/images/fitness.png")}
+            className="w-full h-[84px]"
+            resizeMode="cover"
+          />
+          <Text className="font-bold text-xl text-center">
+            Log into Fitness App
+          </Text>
+
+          <View className="flex w-[80vw] mx-auto mb-2">
+            <Text className="text-lg">Email</Text>
+            <TextInput
+              className="border border-gray-500 w-full h-10 p-2"
+              placeholder="Enter Email"
+              onChangeText={setEmail}
+              value={email}
+            />
+          </View>
+          <View className="flex w-[80vw] mx-auto mb-2">
+            <Text className="text-lg">Password</Text>
+            <TextInput
+              className="border border-gray-500 w-full h-10 p-2"
+              placeholder="Enter Password"
+              onChangeText={setPassword}
+              value={password}
+              secureTextEntry={!showPassword}
+            />
+            <View className="flex-row items-center justify-between">
+              <Text className="text-sm text-gray-700">Show Password</Text>
+              <Switch
+                value={showPassword}
+                onValueChange={(value) => setShowPassword(value)}
+                thumbColor={showPassword ? "#FFB74D" : "#D1D5DB"}
+                trackColor={{ false: "#D1D5DB", true: "#FFB74D" }}
+              />
+            </View>
+            <TouchableOpacity
+              className="bg-orange-500 mt-10 rounded-xl min-h-[52px] w-96 items-center justify-center"
+              onPress={handleSignIn}
+            >
+              <Text className="text-2xl text-white font-bold">Sign In</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="justify-center pt-5 flex-row gap-2">
+            <Text className="text-lg text-gray-500 font-bold">
+              do not have an account?
+            </Text>
+            <Link
+              href={"/(auth)/SignUp"}
+              className="text-lg text-orange-400"
+            >
+              Sign Up
+            </Link>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
