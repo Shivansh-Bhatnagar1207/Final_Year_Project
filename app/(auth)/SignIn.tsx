@@ -27,7 +27,7 @@ export default function SignIn() {
       alert(error.message);
     } else {
       alert("Welcome!");
-      router.push("/User");
+      router.replace("/(main)/Home");
     }
   };
   return (

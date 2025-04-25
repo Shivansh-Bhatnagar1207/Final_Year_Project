@@ -1,39 +1,42 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase"; // your configured supabase client
-import { Session, User } from "@supabase/supabase-js";
-import "@/global.css";
+import { Session } from "@supabase/supabase-js";
 import { StatusBar } from "react-native";
 
 export default function RootLayout() {
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
-  const segments = useSegments();
-  useEffect(()=>{
+  const segments = useSegments(); // Get the current segment of the route
+
+  useEffect(() => {
+    // Fetch the session on app startup
     async function getSession() {
-      const {data,error} = await supabase.auth.getSession();
-      if(data){
-        setSession(data.session);
-      }
+      const { data } = await supabase.auth.getSession();
+      setSession(data?.session || null);
     }
     getSession();
-  },[])
-  
-  
+  }, []);
 
-  //* Navigation guard
   useEffect(() => {
+    // Only run after session is loaded
+    if (session === null) return;
 
+    // Check the current route segment
     const inAuthGroup = segments[0] === "(auth)";
-    const isLoggedIn = !!session?.user;
+    const isLoggedIn = !!session.user;
 
+    // If user is logged in, prevent access to (auth) group, navigate to (main)
     if (isLoggedIn && inAuthGroup) {
-      router.replace("/(main)/Home");
-    } else if (!isLoggedIn && !inAuthGroup) {
-      router.replace("/");
+      router.replace("/(auth)/SignIn");
     }
-  }, [session]);
-  
+
+    // If user is not logged in, prevent access to (main) group, navigate to (auth)
+    if (!isLoggedIn && segments[0] !== "(auth)") {
+      router.replace("/(main)/Home");
+    }
+  }, [session, segments, router]);
+
   return (
     <>
       <Stack screenOptions={{ headerShown: false, animation: "none" }}>

@@ -83,7 +83,7 @@ export default function Signup() {
               Already have an account?
             </Text>
             <Link href={"/(auth)/SignIn"} className="text-lg text-orange-400">
-              Sign Up
+              Login
             </Link>
           </View>
         </View>

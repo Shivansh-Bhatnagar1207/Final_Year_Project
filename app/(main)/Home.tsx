@@ -3,20 +3,22 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { Button } from "@rneui/themed";
 import { router } from "expo-router";
-import { Session } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 
 export default function Home() {
   const [id, setId] = useState<string | null>();
+  const [user, setUser] = useState<User | null>();
   useEffect(() => {
     async function test() {
       const user = await supabase.auth.getUser();
       setId(user.data.user?.id);
+      setUser(user.data.user);
+      // console.log(user.data);
     }
     test();
+    console.log("id:" + user);
   }, []);
-  if (!id) {
-    router.replace("/(auth)/SignIn");
-  }
+
   return (
     <View>
       <Text>home</Text>
