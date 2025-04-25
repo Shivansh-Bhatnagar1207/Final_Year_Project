@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -10,9 +9,7 @@ import {
 import React, { useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormField from "@/component/FormField";
-import Btn from "@/component/Btn";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Switch } from "@rneui/themed";
 
 export default function SignIn() {
@@ -21,12 +18,17 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) alert(error.message);
-    else alert("Welcome");
+
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Welcome!");
+      router.push("/User");
+    }
   };
   return (
     <SafeAreaView className="bg-bgnd h-full">
@@ -80,10 +82,7 @@ export default function SignIn() {
             <Text className="text-lg text-gray-500 font-bold">
               do not have an account?
             </Text>
-            <Link
-              href={"/(auth)/SignUp"}
-              className="text-lg text-orange-400"
-            >
+            <Link href={"/(auth)/SignUp"} className="text-lg text-orange-400">
               Sign Up
             </Link>
           </View>

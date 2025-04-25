@@ -35,13 +35,12 @@ export default function Index() {
           <TouchableOpacity className="bg-orange-500 h-16bg-orange-500 mt-10 rounded-xl min-h-[52px] items-center justify-center">
             <Text
               className="text-2xl text-white font-bold p-2"
-              onPress={() => router.push("/(auth)/SignIn")}
+              onPress={() => router.push("/Home")}
             >
               Let's Begin
             </Text>
           </TouchableOpacity>
         </View>
-        <StatusBar backgroundColor={"#323232"} barStyle={"light-content"} />
       </ScrollView>
     </SafeAreaView>
   );

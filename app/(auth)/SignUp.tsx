@@ -25,7 +25,7 @@ export default function Signup() {
     if (error) alert(error.message);
     else {
       alert("Please Activate your account via Email");
-      router.replace("/(auth)/SignIn");
+      router.replace("/(auth)/User");
     }
   };
   return (

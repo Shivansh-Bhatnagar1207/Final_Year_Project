@@ -6,35 +6,23 @@ import "@/global.css";
 import { StatusBar } from "react-native";
 
 export default function RootLayout() {
-  const [init, setInit] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
   const segments = useSegments();
-
-  // Watch for auth changes
-  useEffect(() => {
-    const getInitialSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      setInit(false);
-    };
-
-    getInitialSession();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
+  useEffect(()=>{
+    async function getSession() {
+      const {data,error} = await supabase.auth.getSession();
+      if(data){
+        setSession(data.session);
       }
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
+    }
+    getSession();
+  },[])
+  
+  
 
   //* Navigation guard
   useEffect(() => {
-    if (init) return;
 
     const inAuthGroup = segments[0] === "(auth)";
     const isLoggedIn = !!session?.user;
@@ -44,11 +32,11 @@ export default function RootLayout() {
     } else if (!isLoggedIn && !inAuthGroup) {
       router.replace("/");
     }
-  }, [session, init]);
-
+  }, [session]);
+  
   return (
     <>
-      <Stack screenOptions={{ headerShown: false , animation : "none"}}>
+      <Stack screenOptions={{ headerShown: false, animation: "none" }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(main)" />
