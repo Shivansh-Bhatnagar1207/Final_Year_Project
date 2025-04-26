@@ -1,7 +1,8 @@
 import { Tabs } from "expo-router";
-import { StatusBar, View } from "react-native";
-import { FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
-export default function _Mainlayout() {
+import React from "react";
+import { View } from "react-native";
+import { FontAwesome6, FontAwesome5 } from "@expo/vector-icons";
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{

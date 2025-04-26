@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -16,6 +17,7 @@ import { supabase } from "@/utils/supabase";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { User } from "@supabase/supabase-js";
 
 type Profile = {
   height: number;
@@ -24,8 +26,8 @@ type Profile = {
 
 export default function Home() {
   const [profileData, setProfileData] = useState<Profile | null>(null);
-  const [user, setUser] = useState("");
-  const [id,setId] = useState("");
+  const [user, setUser] = useState<User | null>();
+  const [id,setId] = useState<string|null>();
   const [bmi, setBmi] = useState<string>("0.00");
   const { width } = Dimensions.get("window");
   const CARD_WIDTH = width * 0.9;
@@ -100,9 +102,9 @@ export default function Home() {
   const { category, color } = getBmiCategory();
   if (!profileData || !bmi) {
     return (
-      <SafeAreaView className="bg-bgnd h-full">
-        <Text>Loading...</Text>
-      </SafeAreaView>
+      <SafeAreaView className="bg-bgnd h-full flex justify-center items-center">
+      <ActivityIndicator size="large" color="#000" />
+    </SafeAreaView>
     );
   }
 
