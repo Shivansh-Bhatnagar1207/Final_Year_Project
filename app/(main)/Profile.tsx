@@ -10,11 +10,21 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { UserResponse } from "@supabase/supabase-js";
 
+type profiletype = {
+  age: string;
+  full_name: string;
+  phone: string;
+  height: string;
+  weight: string;
+  goal: string;
+  gender: string;
+};
 export default function Profile() {
-  const [user, setUser] = useState<string | null>();
+  const [user, setUser] = useState<UserResponse | null>();
   const [id, setId] = useState<string | null>();
-  const [profile, setProfile] = useState<string | null>();
+  const [profile, setProfile] = useState<profiletype | null>();
   useEffect(() => {
     async function test() {
       const user = await supabase.auth.getUser();
@@ -107,7 +117,10 @@ export default function Profile() {
             <TouchableOpacity className="bg-orange-500 h-16bg-orange-500 mt-10 rounded-xl min-h-[52px] items-center justify-center">
               <Text
                 className="text-2xl text-white font-bold p-2"
-                onPress={async () => await supabase.auth.signOut()}
+                onPress={async () => {
+                  await supabase.auth.signOut();
+                  router.replace("/");
+                }}
               >
                 Sign Out
               </Text>

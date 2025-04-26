@@ -26,7 +26,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Cardio");
           }}
         >
           <ImageBackground
@@ -43,7 +43,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Meditation");
           }}
         >
           <ImageBackground
@@ -60,7 +60,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Streching");
           }}
         >
           <ImageBackground
@@ -77,7 +77,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Weight_Training");
           }}
         >
           <ImageBackground
@@ -94,7 +94,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Yoga");
           }}
         >
           <ImageBackground
@@ -109,7 +109,7 @@ const workout = () => {
         <TouchableOpacity
           className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
           onPress={() => {
-            router.push("/Home");
+            router.push("/(workouts)/Zumba");
           }}
         >
           <ImageBackground

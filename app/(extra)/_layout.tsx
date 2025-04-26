@@ -1,9 +1,15 @@
 import { Stack } from "expo-router";
-import { View, Text } from "react-native";
 
 export default function Extralayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF9D3D",
+        },
+        headerTintColor: "white",
+      }}
+    >
       <Stack.Screen name="Step" />
     </Stack>
   );
