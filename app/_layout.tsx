@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase"; // your configured supabase client
 import { Session } from "@supabase/supabase-js";
 import { StatusBar } from "react-native";
+import { AuthProvider } from "@/Hooks/AuthContext";
 
 export default function RootLayout() {
   const [session, setSession] = useState<Session | null>(null);

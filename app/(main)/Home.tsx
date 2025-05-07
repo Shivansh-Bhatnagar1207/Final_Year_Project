@@ -8,6 +8,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
+import * as Progress from "react-native-progress";
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -18,6 +19,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { User } from "@supabase/supabase-js";
+import { Pedometer } from "expo-sensors";
 
 type Profile = {
   height: number;
@@ -26,8 +28,11 @@ type Profile = {
 
 export default function Home() {
   const [profileData, setProfileData] = useState<Profile | null>(null);
+  const [steps, setSteps] = useState(0);
+  const [isAvailable, setIsAvailable] = useState(false);
+
   const [user, setUser] = useState<User | null>();
-  const [id,setId] = useState<string|null>();
+  const [id, setId] = useState<string | null>();
   const [bmi, setBmi] = useState<string>("0.00");
   const { width } = Dimensions.get("window");
   const CARD_WIDTH = width * 0.9;
@@ -38,14 +43,23 @@ export default function Home() {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollX.value = event.contentOffset.x;
   });
+  useEffect(() => {
+    Pedometer.isAvailableAsync().then(setIsAvailable);
+
+    const subscription = Pedometer.watchStepCount((result) => {
+      setSteps(result.steps);
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   useEffect(() => {
-    async function test() {
+    async function getSessionId() {
       const user = await supabase.auth.getUser();
       setId(user.data.user?.id);
       setUser(user);
     }
-    test();
+    getSessionId();
   }, []);
 
   useEffect(() => {
@@ -103,8 +117,8 @@ export default function Home() {
   if (!profileData || !bmi) {
     return (
       <SafeAreaView className="bg-bgnd h-full flex justify-center items-center">
-      <ActivityIndicator size="large" color="#000" />
-    </SafeAreaView>
+        <ActivityIndicator size="large" color="#000" />
+      </SafeAreaView>
     );
   }
 
@@ -182,15 +196,42 @@ export default function Home() {
               <CardSlide title="Track your daily calorie intake" />
             </Animated.ScrollView>
           </View>
-
+          <ImageBackground
+            source={require("@/assets/images/background.jpg")}
+            className="flex-row justify-center my-5 border-primary border mx-auto rounded-full bg-secondary overflow-hidden"
+          >
+            <View className="h-20 w-30 px-5 flex items-center justify-center">
+              <Text className="font-bold text-lg text-white ">0.00</Text>
+              <Text className=" font-bold text-lg text-white">KCAL</Text>
+            </View>
+            <View className="h-20 w-30 px-5 flex items-center justify-center">
+              <Text className="font-bold text-lg text-white ">0</Text>
+              <Text className="font-bold text-lg text-white">WORKOUTS</Text>
+            </View>
+            <View className="h-20 w-30 px-5 flex items-center justify-center">
+              <Text className="font-bold text-lg text-white ">{steps}</Text>
+              <Text className="font-bold text-lg text-white">Steps</Text>
+            </View>
+            <View className="h-20 w-30 px-5 flex items-center justify-center">
+              <Text className="font-bold text-lg text-white">0</Text>
+              <Text className="font-bold text-lg text-white">MINUTES</Text>
+            </View>
+          </ImageBackground>
           {/* Actions */}
-          <View className="flex-row mx-auto  m-2 gap-4 h-60">
+          <View className="flex-row mx-auto  mb-10 gap-4 h-60">
             <View className="flex justify-between">
-              <ActionButton
-                onPress={() => router.push("/(extra)/Step")}
-                title="Steps"
-                icon="footsteps"
-              />
+              <View className="flex items-center justify-center w-44 h-24 bg-white rounded-3xl border-primary border">
+                <Text className="font-bold">Steps</Text>
+                <Progress.Bar
+                  progress={steps / 100}
+                  width={100}
+                  color="black"
+                />
+                <Text>
+                  {steps}/{profileData?.goal}
+                </Text>
+              </View>
+
               <ActionButton
                 onPress={() => router.push("/")}
                 title="Hydration"

@@ -18,16 +18,31 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignup = async () => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
-    if (error) alert(error.message);
-    else {
-      alert("Please Activate your account via Email");
-      router.replace("/(auth)/User");
+
+    if (error) {
+      alert(error.message);
+    } else {
+      // Try to sign them in immediately
+      const { error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (loginError) {
+        alert(
+          "Account created. Please check your email to activate your account before logging in."
+        );
+        router.push("/(auth)/SignIn");
+      } else {
+        alert("Account created & logged in!");
+        router.push("/(auth)/User");
+      }
     }
   };
+
   return (
     <SafeAreaView className="bg-bgnd h-full">
       <ScrollView>

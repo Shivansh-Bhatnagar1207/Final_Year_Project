@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { supabase } from "@/utils/supabase";
-import { useAuth } from "@/Hooks/AuthContext";
 export default function User() {
-  const [id, setId] = useState("");
+  const [id, setId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [age, setAge] = useState("");
@@ -23,17 +23,34 @@ export default function User() {
   const [goal, setGoal] = useState("");
 
   useEffect(() => {
-    async function getsession() {
-      const user = await supabase.auth.getUser();
-      const userId = user.data.user?.id;
-      if (userId) setId(userId); // ✅ Save to state
+    async function getSession() {
+      const test = await supabase.auth.getUser();
+      setId(test.data.user?.id);
     }
-    getsession();
+    getSession();
   }, []);
+
   const handleSubmit = async () => {
-    if (!name || !phone || !age || !gender || !height || !weight || !goal) {
+    if (
+      !id ||
+      !name ||
+      !phone ||
+      !age ||
+      !gender ||
+      !height ||
+      !weight ||
+      !goal
+    ) {
       Alert.alert("All fields are required");
       return;
+    }
+    console.log(id);
+    if (parseInt(age) < 18) {
+      Alert.alert("age not valid");
+      return;
+    }
+    if (name.length < 3) {
+      Alert.alert("Name too short");
     }
 
     const { error } = await supabase
