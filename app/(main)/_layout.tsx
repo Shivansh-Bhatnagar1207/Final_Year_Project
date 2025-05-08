@@ -13,7 +13,7 @@ export default function TabsLayout() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#FEEE91",
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: { backgroundColor: "black" },
+        tabBarStyle: { backgroundColor: "#323232" },
       }}
     >
       <Tabs.Screen

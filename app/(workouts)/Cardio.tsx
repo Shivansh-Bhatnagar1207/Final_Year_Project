@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,6 +26,7 @@ export default function Cardio() {
           <View className="mr-80 flex-row">
             <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
           </View>
+
           <View className="h-80 w-[35vw]  gap-2 ">
             <TouchableOpacity className="bg-[#81C784] h-24 w-44 rounded-3xl flex items-center justify-center border-[#388E3C] border">
               <Text className="text-2xl font-semibold text-white outline-1">
@@ -37,12 +38,14 @@ export default function Cardio() {
                 Intermediate
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity className="bg-[#E57373] h-24 w-44 rounded-3xl flex items-center justify-center border-[#C62828] border">
               <Text className="text-2xl font-semibold text-white">
                 Advanced
               </Text>
             </TouchableOpacity>
           </View>
+
           <View className="ml-80 flex-row">
             <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
           </View>
