@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useWorkout } from "@/Hooks/WorkoutContext";
 
 type ExerciseCardProps = {
   name: string;
@@ -15,6 +16,7 @@ export default function ExerciseCard({
 }: ExerciseCardProps) {
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const { addWorkout } = useWorkout(); // ✅ access context method
 
   useEffect(() => {
     let interval: number;
@@ -38,7 +40,18 @@ export default function ExerciseCard({
 
   const handleStop = () => {
     setIsRunning(false);
-    setSeconds(0);
+
+    // ✅ log the workout into context
+    if (seconds > 0) {
+      addWorkout({
+        name,
+        duration: seconds / 60, // store duration in minutes
+        calories: caloriesBurned,
+        timestamp: new Date(),
+      });
+    }
+
+    setSeconds(0); // reset timer
   };
 
   return (
@@ -69,10 +82,10 @@ export default function ExerciseCard({
             )}
           </View>
 
-          <View className="flex-row items-center  gap-2">
+          <View className="flex-row items-center gap-2">
             <TouchableOpacity onPress={() => setIsRunning((prev) => !prev)}>
               <View
-                className="bg-secondary rounded-full justify-center items-center "
+                className="bg-secondary rounded-full justify-center items-center"
                 style={{ width: 40, height: 40 }}
               >
                 <Ionicons

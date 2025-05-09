@@ -25,7 +25,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { User, UserResponse } from "@supabase/supabase-js";
 import { Pedometer } from "expo-sensors";
 import { Linking } from "react-native";
-
+import { useWorkout } from "@/Hooks/WorkoutContext";
 type Profile = {
   goal: string;
   height: number;
@@ -43,6 +43,8 @@ export default function Home() {
   const { width } = Dimensions.get("window");
   const CARD_WIDTH = width * 0.9;
   const SLIDE_COUNT = 3;
+
+  const { totalCalories, totalWorkouts, totalMinutes } = useWorkout();
 
   // Shared value for scroll tracking
   const scrollX = useSharedValue(0);
@@ -112,6 +114,13 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("totalCalories:", totalCalories);
+    console.log("totalWorkouts:", totalWorkouts);
+    console.log("totalMinutes:", totalMinutes);
+  }, [totalCalories, totalWorkouts, totalMinutes]);
+  
+
   const getBmiCategory = () => {
     const bmiValue = parseFloat(bmi);
     if (bmiValue < 18.5)
@@ -131,6 +140,7 @@ export default function Home() {
       </SafeAreaView>
     );
   }
+  
 
   return (
     <SafeAreaView className="bg-bgnd h-full">
@@ -227,15 +237,22 @@ export default function Home() {
               className="flex-row justify-center my-5 border-primary border mx-auto rounded-full bg-secondary overflow-hidden"
             >
               <View className="h-20 w-30 px-5 flex items-center justify-center">
-                <Text className="font-bold text-lg text-white ">0.00</Text>
-                <Text className=" font-bold text-lg text-white">KCAL</Text>
+                <Text className="font-bold text-lg text-white ">
+                  {Number(totalCalories).toFixed(2)}
+                </Text>
+                <Text className="font-bold text-lg text-white">KCAL</Text>
               </View>
               <View className="h-20 w-30 px-5 flex items-center justify-center">
-                <Text className="font-bold text-lg text-white ">0</Text>
+                <Text className="font-bold text-lg text-white ">
+                  {totalWorkouts || 0} {/* Ensure it's a valid number */}
+                </Text>
                 <Text className="font-bold text-lg text-white">WORKOUTS</Text>
               </View>
               <View className="h-20 w-30 px-5 flex items-center justify-center">
-                <Text className="font-bold text-lg text-white">0</Text>
+                <Text className="font-bold text-lg text-white">
+                  {Number(totalMinutes).toFixed(2) || "0.00"}{" "}
+                  {/* Fallback to 0 if NaN */}
+                </Text>
                 <Text className="font-bold text-lg text-white">MINUTES</Text>
               </View>
             </ImageBackground>

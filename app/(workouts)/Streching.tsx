@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useWorkout } from "@/Hooks/WorkoutContext";
 
 const stretches = [
   {
@@ -9,7 +10,7 @@ const stretches = [
     name: "Hamstring Stretch",
     duration: 30,
     description: "Stretches hamstrings and lower back.",
-    image: require("@/assets/images/streaching/a1.gif"),
+    image: require("@/assets/images/streaching/hamstring.gif"),
   },
   {
     id: 2,

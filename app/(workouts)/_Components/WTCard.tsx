@@ -1,27 +1,51 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useWorkout } from "@/Hooks/WorkoutContext";
 
 type WeightLiftingCardProps = {
   name: string;
   image: any;
-  reps : number;
+  reps: number;
   caloriesPerSet: number;
+  timePerRep: number;
+  sets : number;
 };
 
-export default function WeightLiftingCard({
+export default function WTCard({
   name,
   image,
   reps,
   caloriesPerSet,
+  timePerRep,
 }: WeightLiftingCardProps) {
   const [setsCompleted, setSetsCompleted] = useState(0);
+  const { addWorkout } = useWorkout(); // ✅ get context function
 
   const totalCalories = setsCompleted * caloriesPerSet;
+  const totalTime = setsCompleted * reps * timePerRep; // total time for all completed sets (in seconds)
+  console.log("setsCompleted:", setsCompleted);
+  console.log("reps:", reps);
+  console.log("timePerRep:", timePerRep);
 
   const handleCompleteSet = () => {
-    setSetsCompleted((prev) => prev + 1);
-  };
+  setSetsCompleted((prev) => {
+    const newSets = prev + 1;
+    const caloriesBurned = caloriesPerSet;
+
+    const durationInMinutes = (reps * timePerRep) / 60; // per set duration
+
+    addWorkout({
+      name: name,
+      calories: caloriesBurned,
+      duration: durationInMinutes,
+      timestamp: new Date(),
+    });
+
+    return newSets;
+  });
+};
+
 
   const handleReset = () => {
     setSetsCompleted(0);
@@ -35,7 +59,9 @@ export default function WeightLiftingCard({
         resizeMode="contain"
       />
       <View className="p-5">
-        <Text className="text-lg font-semibold mb-2">{name} x {reps}</Text>
+        <Text className="text-lg font-semibold mb-2">
+          {name} x {reps}
+        </Text>
 
         <View className="bg-secondary rounded-3xl px-4 py-2 mb-4">
           <Text className="text-white font-semibold">
@@ -46,6 +72,9 @@ export default function WeightLiftingCard({
           </Text>
           <Text className="text-white font-semibold">
             Calories per Set: {caloriesPerSet} kcal
+          </Text>
+          <Text className="text-white font-semibold">
+            Total Time: {totalTime} seconds
           </Text>
         </View>
 
