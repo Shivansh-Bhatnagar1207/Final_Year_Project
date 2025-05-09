@@ -41,6 +41,7 @@ const stretches = [
     image: require("@/assets/images/streaching/a5.gif"),
   },
 ];
+
 const totalCaloriesBurned = 10;
 
 export default function StretchingPage() {
@@ -48,6 +49,13 @@ export default function StretchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(stretches[0].duration);
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const { addWorkout } = useWorkout(); // ✅ access context here
+
+  // Calculate total duration in minutes
+  const totalDurationMinutes = Math.round(
+    stretches.reduce((sum, stretch) => sum + stretch.duration, 0) / 60
+  );
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -58,7 +66,7 @@ export default function StretchingPage() {
           if (prev === 1) {
             clearInterval(interval!);
             goToNextStretch();
-            return stretches[currentIndex]?.duration || 0;
+            return stretches[currentIndex + 1]?.duration || 0;
           }
           return prev - 1;
         });
@@ -67,6 +75,18 @@ export default function StretchingPage() {
 
     return () => clearInterval(interval!);
   }, [hasStarted, currentIndex, isCompleted]);
+
+  // ✅ Add workout to context when completed
+  useEffect(() => {
+    if (isCompleted && hasStarted) {
+      addWorkout({
+        name: "Stretching",
+        duration: totalDurationMinutes,
+        calories: totalCaloriesBurned,
+        timestamp: new Date(),
+      });
+    }
+  }, [isCompleted]);
 
   const goToNextStretch = () => {
     if (currentIndex + 1 < stretches.length) {

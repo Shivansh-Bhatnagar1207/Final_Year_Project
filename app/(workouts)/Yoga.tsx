@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useWorkout } from "@/Hooks/WorkoutContext";
 
 const yogaPoses = [
   {
@@ -43,11 +44,18 @@ const yogaPoses = [
 
 const totalCaloriesBurned = 20;
 
-export default function Yoga() {
+const Yoga = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(yogaPoses[0].duration);
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const { addWorkout } = useWorkout();
+
+  // Calculate total duration in minutes
+  const totalDurationMinutes = Math.round(
+    yogaPoses.reduce((sum, pose) => sum + pose.duration, 0) / 60
+  );
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -66,7 +74,21 @@ export default function Yoga() {
     }
 
     return () => clearInterval(interval!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasStarted, currentIndex, isCompleted]);
+
+  // Add workout to context when completed
+  useEffect(() => {
+    if (isCompleted && hasStarted) {
+      addWorkout({
+        name: "Yoga",
+        duration: totalDurationMinutes,
+        calories: totalCaloriesBurned,
+        timestamp: new Date(),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCompleted]);
 
   const goToNextPose = () => {
     if (currentIndex + 1 < yogaPoses.length) {
@@ -97,7 +119,7 @@ export default function Yoga() {
             Yoga Session Completed!
           </Text>
           <Text className="text-lg mt-2">
-            🧘‍♀️ You burned {totalCaloriesBurned} kcal!
+            🧘‍♀ You burned {totalCaloriesBurned} kcal!
           </Text>
           <TouchableOpacity
             onPress={restartModule}
@@ -169,4 +191,6 @@ export default function Yoga() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
+export default Yoga;

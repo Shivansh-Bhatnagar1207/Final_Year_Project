@@ -9,7 +9,7 @@ type WeightLiftingCardProps = {
   reps: number;
   caloriesPerSet: number;
   timePerRep: number;
-  sets : number;
+  sets: number;
 };
 
 export default function WTCard({
@@ -23,29 +23,25 @@ export default function WTCard({
   const { addWorkout } = useWorkout(); // ✅ get context function
 
   const totalCalories = setsCompleted * caloriesPerSet;
-  const totalTime = setsCompleted * reps * timePerRep; // total time for all completed sets (in seconds)
-  console.log("setsCompleted:", setsCompleted);
-  console.log("reps:", reps);
-  console.log("timePerRep:", timePerRep);
+  const totalTime = setsCompleted * reps * timePerRep;
 
   const handleCompleteSet = () => {
-  setSetsCompleted((prev) => {
-    const newSets = prev + 1;
-    const caloriesBurned = caloriesPerSet;
+    setSetsCompleted((prev) => {
+      const newSets = prev + 1;
+      const caloriesBurned = caloriesPerSet;
 
-    const durationInMinutes = (reps * timePerRep) / 60; // per set duration
+      const durationInMinutes = (reps * timePerRep) / 60; // per set duration
 
-    addWorkout({
-      name: name,
-      calories: caloriesBurned,
-      duration: durationInMinutes,
-      timestamp: new Date(),
+      addWorkout({
+        name: name,
+        calories: caloriesBurned,
+        duration: durationInMinutes,
+        timestamp: new Date(),
+      });
+
+      return newSets;
     });
-
-    return newSets;
-  });
-};
-
+  };
 
   const handleReset = () => {
     setSetsCompleted(0);

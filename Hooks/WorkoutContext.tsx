@@ -25,10 +25,10 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   const [completedWorkouts, setCompletedWorkouts] = useState<WorkoutLog[]>([]);
 
   const addWorkout = (workout: WorkoutLog) => {
-    setTotalCalories(prev => prev + workout.calories);
-    setTotalWorkouts(prev => prev + 1);
-    setTotalMinutes(prev => prev + workout.duration);
-    setCompletedWorkouts(prev => [...prev, workout]);
+    setTotalCalories((prev) => prev + workout.calories);
+    setTotalWorkouts((prev) => prev + 1);
+    setTotalMinutes((prev) => prev + workout.duration);
+    setCompletedWorkouts((prev) => [...prev, workout]);
   };
 
   const resetStats = () => {
@@ -56,6 +56,7 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
 
 export const useWorkout = () => {
   const context = useContext(WorkoutContext);
-  if (!context) throw new Error("useWorkout must be used inside WorkoutProvider");
+  if (!context)
+    throw new Error("useWorkout must be used inside WorkoutProvider");
   return context;
 };
