@@ -255,7 +255,7 @@ export default function Home() {
                     className="flex items-center justify-center w-44 h-24 rounded-3xl border-primary border overflow-hidden"
                     resizeMode="cover"
                   >
-                    <Text className="font-semibold text-orange-500 bg-white/75">
+                    <Text className="font-semibold text-orange-500 ">
                       Get Intake{" "}
                       <MaterialCommunityIcons
                         name="food-outline"
@@ -271,7 +271,7 @@ export default function Home() {
                       "https://www.hydrationforhealth.com/en/hydration-tools/hydration-calculator/"
                     )
                   }
-                  title="Hydration"
+                  title="Get Hydration"
                   icon="water-outline"
                 />
               </View>

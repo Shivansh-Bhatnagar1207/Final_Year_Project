@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,33 +19,17 @@ export default function Meditation() {
             fostering mindfulness and emotional harmony.
           </Text>
         </View>
-        <Text className=" text-center text-2xl font-semibold py-14">
-          Choose your Training Intensity
-        </Text>
-        <View className="flex items-center">
-          <View className="mr-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
-          <View className="h-80 w-[35vw]  gap-2 ">
-            <TouchableOpacity className="bg-[#81C784] h-24 w-44 rounded-3xl flex items-center justify-center border-[#388E3C] border">
-              <Text className="text-2xl font-semibold text-white outline-1">
-                Beginner
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-[#FFD54F] h-24 w-44 rounded-3xl flex items-center justify-center border-[#F98A25] border">
-              <Text className="text-2xl font-semibold text-white">
-                Intermediate
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-[#E57373] h-24 w-44 rounded-3xl flex items-center justify-center border-[#C62828] border">
-              <Text className="text-2xl font-semibold text-white">
-                Advanced
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View className="ml-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
+        <View>
+          <Image
+            source={require("@/assets/images/meditation/meditation.gif")}
+            className="w-[85%] h-80 mx-auto"
+            resizeMode="contain"
+          />
+        </View>
+        <View className="">
+          <Text className="text-center font-semibold italic">
+            Deep Breath for 10 mins {"\n"} Go with the flow
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

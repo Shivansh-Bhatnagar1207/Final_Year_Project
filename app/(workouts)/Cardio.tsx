@@ -1,13 +1,33 @@
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+// screens/Cardio.tsx
+import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import CardioCard from "./_Components/CardioCard";
 
 export default function Cardio() {
+  const cardioExercises = [
+    {
+      name: "Running",
+      image: require("@/assets/images/Cardio/running.gif"),
+      burnRate: 15,
+    },
+    {
+      name: "Cycling",
+      image: require("@/assets/images/Cardio/cycling.gif"),
+      burnRate: 8,
+    },
+    {
+      name: "Jump Rope",
+      image: require("@/assets/images/Cardio/jumpRope.gif"),
+      burnRate: 12,
+    },
+    // Add more if needed
+  ];
+
   return (
     <SafeAreaView className="h-screen bg-bgnd">
       <ScrollView>
-        <View className="w-[90vw] mx-auto mt-10 mb-24 border-y-secondary border-x-bgnd py-2 border">
+        <View className="w-[90vw] mx-auto my-10 border-y-secondary border-x-bgnd py-2 border">
           <Text className="text-justify text-gray-600 text-base italic">
             Cardiovascular exercises are excellent for improving heart health
             and endurance. Engaging in activities like running, cycling, or
@@ -16,40 +36,16 @@ export default function Cardio() {
             supports weight management, and enhances stamina. It also releases
             endorphins, reducing stress and improving mood. Over time, it
             contributes to better sleep, a stronger immune system, and overall
-            physical and mental xresilience.
+            physical and mental resilience.
           </Text>
         </View>
-        <Text className=" text-center text-2xl font-semibold py-14">
-          Choose your Training Intensity
-        </Text>
-        <View className="flex items-center">
-          <View className="mr-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
 
-          <View className="h-80 w-[35vw]  gap-2 ">
-            <TouchableOpacity className="bg-[#81C784] h-24 w-44 rounded-3xl flex items-center justify-center border-[#388E3C] border">
-              <Text className="text-2xl font-semibold text-white outline-1">
-                Beginner
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-[#FFD54F] h-24 w-44 rounded-3xl flex items-center justify-center border-[#F98A25] border">
-              <Text className="text-2xl font-semibold text-white">
-                Intermediate
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="bg-[#E57373] h-24 w-44 rounded-3xl flex items-center justify-center border-[#C62828] border">
-              <Text className="text-2xl font-semibold text-white">
-                Advanced
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View className="ml-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
+        <View className="py-10">
+          {cardioExercises.map((exercise, idx) => (
+            <CardioCard key={idx} {...exercise} />
+          ))}
         </View>
+        <View className="h-10"></View>
       </ScrollView>
     </SafeAreaView>
   );

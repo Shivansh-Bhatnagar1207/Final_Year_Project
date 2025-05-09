@@ -1,13 +1,50 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import WTCard from "./_Components/WTCard";
 export default function Weight_Training() {
+  const WT = [
+    {
+      name: "Bicep Curls",
+      reps: 10,
+      image: require("@/assets/images/WT/g1.gif"),
+      caloriesPerSet: 15,
+    },
+    {
+      name: "OverHead Tricep Extentions",
+      reps: 10,
+      image: require("@/assets/images/WT/g2.gif"),
+      caloriesPerSet: 8,
+    },
+    {
+      name: "Weighted Squats",
+      reps: 10,
+      image: require("@/assets/images/WT/g3.gif"),
+      caloriesPerSet: 12,
+    },
+    {
+      name: "Inclined Bench Press",
+      reps: 10,
+      image: require("@/assets/images/WT/g4.gif"),
+      caloriesPerSet: 12,
+    },
+    {
+      name: "Lat Pulldown",
+      reps: 10,
+      image: require("@/assets/images/WT/g5.gif"),
+      caloriesPerSet: 12,
+    },
+    {
+      name: "Shoulder Press",
+      reps: 10,
+      image: require("@/assets/images/WT/g6.gif"),
+      caloriesPerSet: 12,
+    },
+  ];
   return (
     <SafeAreaView className="h-screen bg-bgnd">
       <ScrollView>
-        <View className="w-[90vw] mx-auto mt-10 mb-24 border-y-secondary border-x-bgnd py-2 border">
+        <View className="w-[90vw] mx-auto mt-10    border-y-secondary border-x-bgnd py-2 border">
           <Text className="text-justify text-gray-600 text-base italic">
             Weight training builds strength, enhances muscle tone, and increases
             metabolic efficiency. Lifting weights or using resistance exercises
@@ -19,34 +56,12 @@ export default function Weight_Training() {
             toughness and confidence.
           </Text>
         </View>
-        <Text className=" text-center text-2xl font-semibold py-14">
-          Choose your Training Intensity
-        </Text>
-        <View className="flex items-center">
-          <View className="mr-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
-          <View className="h-80 w-[35vw]  gap-2 ">
-            <TouchableOpacity className="bg-[#81C784] h-24 w-44 rounded-3xl flex items-center justify-center border-[#388E3C] border">
-              <Text className="text-2xl font-semibold text-white outline-1">
-                Beginner
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-[#FFD54F] h-24 w-44 rounded-3xl flex items-center justify-center border-[#F98A25] border">
-              <Text className="text-2xl font-semibold text-white">
-                Intermediate
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-[#E57373] h-24 w-44 rounded-3xl flex items-center justify-center border-[#C62828] border">
-              <Text className="text-2xl font-semibold text-white">
-                Advanced
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View className="ml-80 flex-row">
-            <Ionicons name="sparkles-outline" size={30} color="#FFBD73" />
-          </View>
+        <View className="py-10">
+          {WT.map((exercise, idx) => (
+            <WTCard key={idx} {...exercise} />
+          ))}
         </View>
+        <View className="h-10"></View>
       </ScrollView>
     </SafeAreaView>
   );
