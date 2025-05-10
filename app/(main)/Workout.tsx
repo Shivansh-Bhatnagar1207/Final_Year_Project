@@ -106,23 +106,6 @@ const workout = () => {
             <Text className="text-2xl font-semibold px-5 text-white">Yoga</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          className="my-5 bg-accent border border-primary h-64 w-[28rem] mx-auto rounded-3xl overflow-hidden"
-          onPress={() => {
-            router.push("/(workouts)/Zumba");
-          }}
-        >
-          <ImageBackground
-            source={require("@/assets/images/zoomba.jpg")}
-            resizeMode="cover"
-            className="h-48 "
-          />
-          <View className="flex-1 justify-center">
-            <Text className="text-2xl font-semibold px-5 text-white">
-              Zumba
-            </Text>
-          </View>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

@@ -17,28 +17,28 @@ const stretches = [
     name: "Shoulder Stretch",
     duration: 30,
     description: "Improves shoulder flexibility.",
-    image: require("@/assets/images/streaching/a2.gif"),
+    image: require("@/assets/images/streaching/sholderstretch.gif"),
   },
   {
     id: 3,
     name: "Quad Stretch",
     duration: 30,
     description: "Stretches quadriceps and hip flexors.",
-    image: require("@/assets/images/streaching/a3.gif"),
+    image: require("@/assets/images/streaching/quadriceps-stretch.gif"),
   },
   {
     id: 4,
     name: "Calf Stretch",
     duration: 30,
     description: "Stretches calf muscles.",
-    image: require("@/assets/images/streaching/a4.gif"),
+    image: require("@/assets/images/streaching/CalfStretch.gif"),
   },
   {
     id: 5,
     name: "Lower Back Stretch",
     duration: 30,
     description: "Relieves tension in lower back.",
-    image: require("@/assets/images/streaching/a5.gif"),
+    image: require("@/assets/images/streaching/lowerbackstretch.gif"),
   },
 ];
 
