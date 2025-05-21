@@ -63,6 +63,7 @@ export default function User() {
         height,
         weight,
         goal,
+        "FirstLogin": false,
       })
       .eq("id", id); // ✅ Match existing user by ID
 

@@ -36,9 +36,6 @@ export default function Signup() {
           "Account created. Please check your email to activate your account before logging in."
         );
         router.push("/(auth)/SignIn");
-      } else {
-        alert("Account created & logged in!");
-        router.push("/(auth)/User");
       }
     }
   };

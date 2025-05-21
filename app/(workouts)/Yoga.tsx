@@ -24,21 +24,21 @@ const yogaPoses = [
     name: "Warrior II",
     duration: 30,
     description: "Strengthens legs and improves balance.",
-    image: require("@/assets/images/streaching/warrior2.gif"),
+    image: require("@/assets/images/streaching/warrior2.jpg"),
   },
   {
     id: 4,
     name: "Tree Pose",
     duration: 30,
     description: "Improves balance and stability in the legs.",
-    image: require("@/assets/images/streaching/treepose.gif"),
+    image: require("@/assets/images/streaching/treepose.jpg"),
   },
   {
     id: 5,
     name: "bridge Pose",
     duration: 30,
     description: "Stretches chest, neck, and spine; strengthens back.",
-    image: require("@/assets/images/streaching/bridge~.gif"),
+    image: require("@/assets/images/streaching/bridge.jpg"),
   },
 ];
 
